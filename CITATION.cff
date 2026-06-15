@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the associated article."
+title: "Human-AI collaboration for diabetic retinopathy screening: a Bayesian diagnostic test-accuracy network meta-analysis"
+authors:
+  - family-names: Wang
+    given-names: Ting-Wei
+  - family-names: Fang
+    given-names: Wei-Chieh
+  - family-names: Tu
+    given-names: Yu-Kang
+  - family-names: Wu
+    given-names: Yu-Te
+  - family-names: Chou
+    given-names: Yu-Bai
+repository-code: "https://github.com/qwwaawwqq/Human-AI-collaboration-for-diabetic-retinopathy-screening"
+license: MIT
+keywords:
+  - diabetic retinopathy
+  - network meta-analysis
+  - diagnostic test accuracy
+  - deep learning
+  - human-AI collaboration
