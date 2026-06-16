@@ -1,0 +1,38 @@
+NOTE: Stopping adaptation
+
+
+
+### Base (dataset_id, all)  | collab tables=48 | studies=24
+  AI      Se=0.927 Sp=0.930 Youden=0.857 [0.813,0.893] SUCRA=0.54 P(best)=0.10
+  Human   Se=0.850 Sp=0.963 Youden=0.812 [0.758,0.859] SUCRA=0.02 P(best)=0.00
+  Collab  Se=0.917 Sp=0.972 Youden=0.889 [0.839,0.926] SUCRA=0.95 P(best)=0.90
+  Collab vs AI dYouden = +0.032 [-0.021, 0.078] | RANK Collab>AI>Human
+NOTE: Stopping adaptation
+
+
+
+### By publication (all)  | collab tables=48 | studies=29
+  AI      Se=0.928 Sp=0.930 Youden=0.858 [0.819,0.891] SUCRA=0.51 P(best)=0.06
+  Human   Se=0.853 Sp=0.968 Youden=0.821 [0.775,0.860] SUCRA=0.02 P(best)=0.00
+  Collab  Se=0.916 Sp=0.980 Youden=0.895 [0.851,0.928] SUCRA=0.97 P(best)=0.94
+  Collab vs AI dYouden = +0.037 [-0.012, 0.080] | RANK Collab>AI>Human
+NOTE: Stopping adaptation
+
+
+
+### One per dataset x arm (largest)  | collab tables=8 | studies=24
+  AI      Se=0.917 Sp=0.935 Youden=0.852 [0.806,0.891] SUCRA=0.52 P(best)=0.16
+  Human   Se=0.854 Sp=0.971 Youden=0.826 [0.770,0.874] SUCRA=0.09 P(best)=0.01
+  Collab  Se=0.907 Sp=0.972 Youden=0.879 [0.815,0.922] SUCRA=0.89 P(best)=0.83
+  Collab vs AI dYouden = +0.027 [-0.037, 0.079] | RANK Collab>AI>Human
+NOTE: Stopping adaptation
+
+
+
+### One per publication x arm (largest)  | collab tables=9 | studies=29
+  AI      Se=0.922 Sp=0.932 Youden=0.855 [0.813,0.890] SUCRA=0.56 P(best)=0.18
+  Human   Se=0.849 Sp=0.971 Youden=0.820 [0.772,0.863] SUCRA=0.05 P(best)=0.01
+  Collab  Se=0.904 Sp=0.974 Youden=0.878 [0.818,0.923] SUCRA=0.89 P(best)=0.81
+  Collab vs AI dYouden = +0.023 [-0.036, 0.075] | RANK Collab>AI>Human
+
+DONE
