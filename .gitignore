@@ -4,4 +4,7 @@
 .Rproj.user/
 results/*
 !results/.gitkeep
+!results/*.rds
+!results/*.csv
+!results/*_results.txt
 *.log

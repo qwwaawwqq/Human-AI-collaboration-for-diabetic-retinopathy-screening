@@ -1,0 +1,12 @@
+Dropped Li 2024b: 203 -> 146 eye tables
+NOTE: Stopping adaptation
+
+
+
+### LEAVE-ONE-OUT: drop Li 2024b (DeepDR-LLM), all remaining tables | tables=146 studies=24 | collab tables=21
+  AI      Se=0.923 Sp=0.930 Youden=0.853 [0.803,0.892] SUCRA=0.49 P(best)=0.10
+  Human   Se=0.860 Sp=0.968 Youden=0.828 [0.780,0.870] SUCRA=0.07 P(best)=0.01
+  Collab  Se=0.908 Sp=0.975 Youden=0.884 [0.831,0.924] SUCRA=0.94 P(best)=0.89
+  Collab vs AI dYouden = +0.031 [-0.019, 0.081] | RANK Collab>AI>Human
+
+DONE
