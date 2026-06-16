@@ -10,43 +10,37 @@ Protocol: INPLASY202630009. Manuscript under review at *Telehealth and Digital H
 ```
 .
 ├── data/      De-identified study-level 2×2 dataset (sheets: patient_rr, eye_rr) — no patient-level data
-├── R/         Analysis & figure scripts (run from the repository root)
-├── py/        Network-geometry figure (Python / matplotlib)
-└── results/   Pre-computed fitted models (*.rds) and result tables (*.csv),
-               provided so figures and headline numbers reproduce without re-fitting
+├── R/         dr_nma_analysis.R — single, end-to-end analysis script (run from the repository root)
+├── py/        make_network_fig.py — network-geometry figure (Supplementary Figure S15)
+└── results/   Fitted models (*.rds) from the full run + sensitivity logs; all other
+               outputs (CSVs, Figures 2–4) are written here when the script runs
 ```
 
-| Script | Purpose |
-|---|---|
-| `R/DR_Pathway_NMA_RUN50k.R` | **Full pipeline** (4 chains × 50,000 iter / 10,000 burn-in): fits the models, generates Figures 2–4 (forest, HSROC, multivariate MR) and the supplementary convergence/funnel/MR plots, writes result CSVs and `results/*.rds` |
-| `R/extract_stats.R` | Canonical pooled Se/Sp/Youden/SUCRA/P(best) and per-10,000 numbers, read from the fitted models |
-| `R/nma_analysis.R` | Bivariate DTA-NMA: pooled Se/Sp, Youden, SUCRA/ranking, pairwise contrasts, unit-of-analysis sensitivity |
-| `R/unit_of_analysis_v7.R` | Unit-of-analysis sensitivity across table-per-study specifications (Supplementary Table S14) |
-| `R/leave_one_out_Li2024b.R` | Leave-one-out sensitivity omitting the dominant study (Li et al. 2024b, DeepDR-LLM) |
-| `R/figure4_multivariate_MR.R` | Figure 4: combined patient + eye multivariate meta-regression forest plot |
-| `R/metareg.R` | Univariate categorical meta-regression (26 covariates, patient & eye) |
-| `R/prevalence.R` | Expected outcomes per 10,000 screened |
-| `R/nma_with_lee.R` | Sensitivity analysis documenting the addition of Lee et al. 2021 |
-| `py/make_network_fig.py` | Network-geometry figure (Supplementary Figure S15) |
-
-## Reproduce
+## One script does everything: `R/dr_nma_analysis.R`
+Run from the repository root:
 ```bash
-# from the repository root
-Rscript R/DR_Pathway_NMA_RUN50k.R                          # full pipeline: models, Figures 2-4, CSVs
-Rscript R/extract_stats.R                                  # headline Se/Sp/Youden/SUCRA (from results/*.rds)
-Rscript R/nma_analysis.R patient_rr patient dataset_id 0   # patient-level NMA
-Rscript R/nma_analysis.R eye_rr     eye     dataset_id 0   # eye-level NMA (primary)
-Rscript R/unit_of_analysis_v7.R                            # Table S14 unit-of-analysis
-Rscript R/leave_one_out_Li2024b.R                          # leave-one-out (drop Li 2024b)
-Rscript R/metareg.R                                        # meta-regression
-python  py/make_network_fig.py                             # network geometry (Figure S15)
+Rscript R/dr_nma_analysis.R                  # full analysis (4 chains × 50,000 iter / 10,000 burn-in)
+DR_QUICK=1 Rscript R/dr_nma_analysis.R       # fast smoke-test (tiny MCMC, ~1 min) — for checking the pipeline
+python  py/make_network_fig.py               # network-geometry figure (Figure S15)
 ```
-The fitted models ship in `results/`, so `extract_stats.R` and the figure scripts run in
-seconds without re-running the MCMC (which takes ~hours). Re-running
-`DR_Pathway_NMA_RUN50k.R` will overwrite them.
+It reproduces, writing everything to `results/`:
+
+| Section | Outputs |
+|---|---|
+| Primary NMA (patient & eye) | pooled Se/Sp/Youden, SUCRA + P(best) ranking, pairwise contrasts, heterogeneity, convergence → `*_per_arm.csv`, `*_pairwise.csv`, `*_ranking.csv`, `*_het.csv`, `*_conv.csv`, `*_draws.rds` |
+| Sensitivity (eye) | unit-of-analysis (base / by-publication / one-per-dataset×arm / one-per-publication×arm) **and** leave-one-out dropping the dominant study (Li 2024b) → `eye_sensitivity.csv` |
+| Expected outcomes | per 10,000 screened across a prevalence grid → `*_prevalence.csv` |
+| Meta-regression | univariate (26 covariates) and multivariate → `metareg_*.csv`, `metareg_*_multivar.csv` |
+| Figures | Figure 2 (forest), Figure 3 (HSROC), Figure 4 (multivariate meta-regression) → `Figure2/3/4_*.tiff` |
+
+Selection rules match the manuscript: the unit-of-analysis sensitivity keeps the **largest**
+2×2 table per group×arm; collaboration remains highest-ranked across all specifications and
+under leave-one-out (SUCRA ≈ 0.89–0.94), though its advantage over AI alone is not statistically
+significant. `results/` ships with the fitted posterior models (`AI_NMA_model.rds`,
+`eye_rr_NMA_model.rds`) and the unit-of-analysis / leave-one-out result logs from the full run.
 
 ## Requirements
-- R (≥ 4.3) with `rjags`, `R2jags`, `coda`, `readxl`, `parallel`; and JAGS ≥ 4.3
+- R (≥ 4.3) with `rjags`, `coda`, `readxl`, `parallel`; and JAGS ≥ 4.3
   (https://mcmc-jags.sourceforge.io). `rjags` locates JAGS automatically.
 - Python (≥ 3.9) with `matplotlib` (for `py/make_network_fig.py` only).
 
